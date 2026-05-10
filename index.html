@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inteligencia Artificial — De Cero a Experto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #24243a;
+      --border: #2a2a44;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --accent3: #6366f1;
+      --text: #f1f1f7;
+      --text2: #a0a0b8;
+      --text3: #6b6b85;
+      --gradient: linear-gradient(135deg, #7c3aed, #6366f1, #3b82f6);
+      font-family: 'Inter', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 6rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,.15), transparent 70%);
+      transform: translate(-50%, -30%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: var(--text2);
+      max-width: 600px;
+      margin-inline: auto;
+    }
+
+    /* ---- NAV TABS ---- */
+    .nav-tabs {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0 2rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      flex-shrink: 0;
+      padding: 0.85rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text3);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .nav-tab:hover { color: var(--text); }
+    .nav-tab.active {
+      color: var(--accent2);
+      border-bottom-color: var(--accent2);
+    }
+
+    /* ---- CONTENT ---- */
+    .content { max-width: 860px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+    .tab-panel { display: none; animation: fadeUp 0.35s ease; }
+    .tab-panel.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- CARDS ---- */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent2);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .card p { color: var(--text2); margin-bottom: 1rem; }
+    .card ul, .card ol { color: var(--text2); padding-left: 1.5rem; margin-bottom: 1rem; }
+    .card li { margin-bottom: 0.35rem; }
+    .card code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.85em;
+      color: var(--accent2);
+    }
+    .card .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      background: rgba(124,58,237,.15);
+      color: var(--accent2);
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ---- ACCORDION (sub-sections) ---- */
+    .accordion { border-top: 1px solid var(--border); }
+    .accordion-item { border-bottom: 1px solid var(--border); }
+    .accordion-header {
+      width: 100%;
+      padding: 1rem 0;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: inherit;
+    }
+    .accordion-header:hover { color: var(--accent2); }
+    .accordion-header .icon { transition: transform 0.25s; font-size: 0.85rem; }
+    .accordion-item.open .icon { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0;
+    }
+    .accordion-item.open .accordion-body {
+      max-height: 3000px;
+      padding-bottom: 1rem;
+    }
+    .accordion-body p, .accordion-body ul, .accordion-body ol {
+      color: var(--text2);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ---- INFO BOX ---- */
+    .info-box {
+      background: rgba(124,58,237,.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+    }
+    .info-box p { color: var(--text); font-size: 0.92rem; margin: 0; }
+
+    /* ---- FOOTER ---- */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text3);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 640px) {
+      .hero { padding: 4rem 1rem 2rem; }
+      .content { padding: 1.5rem 1rem 3rem; }
+      .nav-tab { padding: 0.7rem 1rem; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <h1>🤖 Inteligencia Artificial</h1>
+    <p>De los fundamentos a la vanguardia. Un recorrido completo por el mundo de la IA, explicado en claro.</p>
+  </header>
+
+  <!-- TABS -->
+  <nav class="nav-tabs" id="tabs">
+    <button class="nav-tab active" data-tab="intro">🏠 Introducción</button>
+    <button class="nav-tab" data-tab="ml">📊 ML</button>
+    <button class="nav-tab" data-tab="deep">🧠 Deep Learning</button>
+    <button class="nav-tab" data-tab="nlp">💬 NLP</button>
+    <button class="nav-tab" data-tab="vision">👁️ Visión</button>
+    <button class="nav-tab" data-tab="gen">🎨 Generativa</button>
+    <button class="nav-tab" data-tab="ethics">⚖️ Ética</button>
+    <button class="nav-tab" data-tab="recursos">📚 Recursos</button>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ===== INTRODUCCIÓN ===== -->
+    <section class="tab-panel active" id="panel-intro">
+      <div class="card">
+        <h2>¿Qué es la Inteligencia Artificial?</h2>
+        <p>
+          La <strong>Inteligencia Artificial (IA)</strong> es la rama de la computación que busca crear sistemas capaces de realizar tareas que normalmente requieren inteligencia humana: razonar, aprender, percibir, tomar decisiones y comprender el lenguaje.
+        </p>
+        <div class="info-box">
+          <p>💡 <strong>Dato clave:</strong> El término "Inteligencia Artificial" fue acuñado por John McCarthy en 1956 durante la Conferencia de Dartmouth.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔹 Tipos de IA</h3>
+        <p>La IA se clasifica en tres niveles según su capacidad:</p>
+        <ul>
+          <li><strong>IA Débil (Narrow AI):</strong> Diseñada para una tarea específica. Ej: Siri, ChatGPT, filtros de spam. Es la única que existe hoy.</li>
+          <li><strong>IA General (AGI):</strong> Igualaría o superaría la inteligencia humana en cualquier tarea. Aún no existe.</li>
+          <li><strong>Superinteligencia (ASI):</strong> Superaría ampliamente la capacidad humana. Es teoría por ahora.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🔹 Ramas principales</h3>
+        <ul>
+          <li><strong>Machine Learning (ML):</strong> Algoritmos que aprenden de datos.</li>
+          <li><strong>Deep Learning:</strong> Redes neuronales profundas para problemas complejos.</li>
+          <li><strong>Procesamiento de Lenguaje Natural (NLP):</strong> Entender y generar texto.</li>
+          <li><strong>Computer Vision:</strong> Interpretar imágenes y video.</li>
+          <li><strong>Robótica:</strong> Control inteligente de máquinas físicas.</li>
+          <li><strong>Sistemas Expertos:</strong> Reglas lógicas para dominios específicos.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🔹 ¿Cómo "aprende" una máquina?</h3>
+        <p>A diferencia de los programas tradicionales (reglas fijas), un sistema de IA <strong>aprende patrones</strong> a partir de datos. El proceso general es:</p>
+        <ol>
+          <li><strong>Datos:</strong> Se recolectan ejemplos (texto, imágenes, números).</li>
+          <li><strong>Modelo:</strong> Se elige una arquitectura (red neuronal, árbol, etc.).</li>
+          <li><strong>Entrenamiento:</strong> El modelo ajusta sus parámetros para minimizar errores.</li>
+          <li><strong>Evaluación:</strong> Se prueba con datos nuevos que nunca ha visto.</li>
+          <li><strong>Inferencia:</strong> El modelo entrenado responde a nuevas entradas.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== MACHINE LEARNING ===== -->
+    <section class="tab-panel" id="panel-ml">
+      <div class="card">
+        <h2>Machine Learning (Aprendizaje Automático)</h2>
+        <p>
+          El <strong>Machine Learning</strong> es el corazón de la IA moderna. En lugar de programar reglas explícitas, el ordenador "aprende" patrones a partir de ejemplos.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🔸 Tipos de aprendizaje</h3>
+        <ul>
+          <li><strong>Supervisado:</strong> El modelo aprende con ejemplos etiquetados (entrada → salida conocida).<br>
+          <span class="tag">Regresión</span> <span class="tag">Clasificación</span><br>
+          <em>Ej:</em> Predecir precio de una casa, clasificar emails como spam/no-spam.</li>
+          <li style="margin-top:1rem"><strong>No Supervisado:</strong> El modelo encuentra patrones sin etiquetas.<br>
+          <span class="tag">Clustering</span> <span class="tag">Reducción de dimensionalidad</span><br>
+          <em>Ej:</em> Segmentar clientes por comportamiento, comprimir imágenes.</li>
+          <li style="margin-top:1rem"><strong>Por Refuerzo:</strong> El modelo aprende por prueba y error, maximizando una recompensa.<br>
+          <span class="tag">RL</span> <span class="tag">Q-Learning</span><br>
+          <em>Ej:</em> AlphaGo, robots que aprenden a caminar.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🔸 Algoritmos clásicos</h3>
+        <ul>
+          <li><strong>Regresión Lineal:</strong> Predecir valores continuos.</li>
+          <li><strong>Árboles de Decisión:</strong> Reglas if/else aprendidas.</li>
+          <li><strong>Random Forest:</strong> Múltiples árboles combinados (mayor precisión).</li>
+          <li><strong>SVM (Support Vector Machines):</strong> Encuentra el límite óptimo entre clases.</li>
+          <li><strong>K-Means:</strong> Agrupa datos en K clusters.</li>
+          <li><strong>KNN (K-Nearest Neighbors):</strong> Clasifica por cercanía a ejemplos conocidos.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🔸 Flujo de trabajo típico</h3>
+        <ol>
+          <li><strong>Recolección</strong> de datos (CSV, API, web scraping).</li>
+          <li><strong>Limpieza:</strong> valores nulos, outliers, normalización.</li>
+          <li><strong>División:</strong> train / validation / test.</li>
+          <li><strong>Entrenamiento</strong> del modelo.</li>
+          <li><strong>Ajuste</strong> de hiperparámetros (grid search, random search).</li>
+          <li><strong>Evaluación</strong> con métricas (accuracy, F1, MSE, etc.).</li>
+          <li><strong>Deploy</strong> a producción como API o embebido.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>🔸 Métricas clave</h3>
+        <ul>
+          <li><strong>Accuracy:</strong> Aciertos / total. Simple pero engañoso con clases desbalanceadas.</li>
+          <li><strong>Precision:</strong> De lo que predije como positivo, ¿cuánto acerté?</li>
+          <li><strong>Recall:</strong> De lo que era positivo, ¿cuánto capturé?</li>
+          <li><strong>F1-Score:</strong> Media armónica de precision y recall.</li>
+          <li><strong>MSE / MAE:</strong> Error en regresión (cuánto me equivoco en promedio).</li>
+        </ul>
+        <div class="info-box">
+          <p>📌 <strong>Regla práctica:</strong> No uses accuracy con datos desbalanceados. Si el 99% de tus datos son "no-spam", un modelo que siempre diga "no-spam" tendrá 99% de accuracy pero servirá de nada.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DEEP LEARNING ===== -->
+    <section class="tab-panel" id="panel-deep">
+      <div class="card">
+        <h2>Deep Learning (Aprendizaje Profundo)</h2>
+        <p>
+          El <strong>Deep Learning</strong> es una subrama del ML que usa <strong>redes neuronales artificiales</strong> con muchas capas (de ahí lo de "profundo"). A mayor profundidad, mayor capacidad de aprender patrones complejos.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🧠 ¿Cómo funciona una neurona artificial?</h3>
+        <p>Inspirada en el cerebro humano, una neurona artificial:</p>
+        <ol>
+          <li>Recibe <strong>entradas</strong> (x₁, x₂, ..., xₙ).</li>
+          <li>Cada entrada tiene un <strong>peso</strong> (w₁, w₂, ..., wₙ).</li>
+          <li>Calcula la suma ponderada: <code>z = Σ(wᵢ · xᵢ) + bias</code>.</li>
+          <li>Aplica una <strong>función de activación</strong> (ReLU, sigmoid, tanh).</li>
+          <li>Produce una <strong>salida</strong> que pasa a la siguiente capa.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>🔹 Arquitecturas principales</h3>
+        <ul>
+          <li><strong>MLP (Perceptrón Multicapa):</strong> La red básica. Capas densas completamente conectadas.</li>
+          <li><strong>CNN (Redes Convolucionales):</strong> Especializadas en imágenes. Detectan bordes, texturas, formas.</li>
+          <li><strong>RNN / LSTM:</strong> Para secuencias (texto, audio, series temporales). Tienen "memoria".</li>
+          <li><strong>Transformer:</strong> La revolución. Procesa toda la secuencia en paralelo con atención. Base de GPT, BERT, etc.</li>
+          <li><strong>GAN (Redes Generativas Antagónicas):</strong> Dos redes compiten: una genera, la otra discrimina.</li>
+          <li><strong>Autoencoders:</strong> Comprimen y reconstruyen datos. Útiles para detección de anomalías.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🔹 Backpropagation (Retropropagación)</h3>
+        <p>El algoritmo que hace posible el aprendizaje profundo:</p>
+        <ol>
+          <li>Forward pass: la entrada pasa por todas las capas hasta la salida.</li>
+          <li>Se calcula el <strong>error</strong> (diferencia entre salida real y esperada).</li>
+          <li>El error se propaga <strong>hacia atrás</strong>, capa por capa.</li>
+          <li>Cada peso se ajusta usando <strong>gradiente descendiente</strong>.</li>
+          <li>Se repite miles/millones de veces hasta que el error es mínimo.</li>
+        </ol>
+        <div class="info-box">
+          <p>⚡ <strong>Tip:</strong> La retropropagación usa la regla de la cadena del cálculo diferencial. Si entiendes derivadas parciales, entiendes backprop.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔹 Frameworks populares</h3>
+        <p>
+          <span class="tag">PyTorch</span> <span class="tag">TensorFlow</span> <span class="tag">Keras</span> <span class="tag">JAX</span>
+        </p>
+        <p>📌 <em>PyTorch</em> es hoy el más usado en investigación. <em>TensorFlow/Keras</em> tiene mayor presencia en producción.</p>
+      </div>
+    </section>
+
+    <!-- ===== NLP ===== -->
+    <section class="tab-panel" id="panel-nlp">
+      <div class="card">
+        <h2>NLP — Procesamiento de Lenguaje Natural</h2>
+        <p>
+          El <strong>NLP</strong> permite a las máquinas entender, interpretar y generar lenguaje humano. Es la tecnología detrás de ChatGPT, Google Translate, Siri y los asistentes virtuales.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>💬 Tareas principales</h3>
+        <ul>
+          <li><strong>Clasificación de texto:</strong> ¿Es este email spam? ¿Esta reseña es positiva o negativa?</li>
+          <li><strong>Reconocimiento de Entidades (NER):</strong> Extraer nombres, fechas, lugares de un texto.</li>
+          <li><strong>Análisis de Sentimiento:</strong> Detectar emociones en texto (positivo/negativo/neutral).</li>
+          <li><strong>Traducción Automática:</strong> DeepL, Google Translate.</li>
+          <li><strong>Resumen de Texto:</strong> Extraer lo esencial de un documento largo.</li>
+          <li><strong>Generación de Texto:</strong> GPT, Claude — escribir desde cero.</li>
+          <li><strong>Preguntas y Respuestas (QA):</strong> Responder preguntas basadas en contexto.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>💬 La revolución Transformer</h3>
+        <p>En 2017, Google publicó <em>"Attention Is All You Need"</em> presentando el <strong>Transformer</strong>. Sus innovaciones clave:</p>
+        <ul>
+          <li><strong>Auto-atención (Self-Attention):</strong> Cada palabra se relaciona con todas las demás simultáneamente.</li>
+          <li><strong>Procesamiento paralelo:</strong> A diferencia de RNNs, procesa toda la secuencia de una vez.</li>
+          <li><strong>Posicional Encoding:</strong> Codifica la posición de las palabras sin usar recursión.</li>
+        </ul>
+        <p>Esto permitió escalar modelos como nunca antes: <strong>GPT-3</strong> (175B parámetros), <strong>BERT</strong>, <strong>LLaMA</strong>.</p>
+      </div>
+
+      <div class="card">
+        <h3>💬 Modelos de Lenguaje (LLMs)</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">
+              ¿Cómo funciona un LLM? <span class="icon">▼</span>
+            </button>
+            <div class="accordion-body">
+              <p>Un LLM predice la <strong>siguiente palabra</strong> dado un contexto. Durante el entrenamiento masivo (internet, libros, artículos), aprende patrones estadísticos del lenguaje. No "entiende" como un humano, pero es tan bueno prediciendo que parece que sí.</p>
+              <p><strong>Tokens:</strong> El texto se divide en tokens (~3/4 de palabra). GPT-4 maneja contextos de hasta 128k tokens.</p>
+              <p><strong>Temperatura:</strong> Controla la creatividad. Baja (0-0.3) → más determinista. Alta (0.7-1) → más creativo.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              LLMs populares <span class="icon">▼</span>
+            </button>
+            <div class="accordion-body">
+              <ul>
+                <li><strong>GPT-4 / GPT-4o</strong> — OpenAI (multimodal, líder)</li>
+                <li><strong>Claude 3.5 Sonnet</strong> — Anthropic (seguridad, código)</li>
+                <li><strong>LLaMA 3 / 3.1</strong> — Meta (open source)</li>
+                <li><strong>Gemini</strong> — Google</li>
+                <li><strong>Mistral / Mixtral</strong> — Europeo, open source eficiente</li>
+                <li><strong>DeepSeek</strong> — Chino, open source competitivo</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              Fine-Tuning + RAG <span class="icon">▼</span>
+            </button>
+            <div class="accordion-body">
+              <p><strong>Fine-Tuning:</strong> Entrenar un LLM pre-entrenado con datos específicos para especializarlo (ej: asistente legal, médico).</p>
+              <p><strong>RAG (Retrieval-Augmented Generation):</strong> El modelo busca información relevante en una base de datos y la usa para responder. No necesita re-entrenamiento y evita alucinaciones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COMPUTER VISION ===== -->
+    <section class="tab-panel" id="panel-vision">
+      <div class="card">
+        <h2>Computer Vision — Visión por Computadora</h2>
+        <p>
+          La <strong>Visión por Computadora</strong> permite a las máquinas interpretar el mundo visual: fotos, video, cámaras en tiempo real. Es lo que permite que los carros autónomos "vean" la calle.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>👁️ Tareas fundamentales</h3>
+        <ul>
+          <li><strong>Clasificación de imágenes:</strong> ¿Qué objeto aparece en esta foto? (perro, gato, avión).</li>
+          <li><strong>Detección de objetos:</strong> ¿Dónde están los objetos y qué son? (bounding boxes).</li>
+          <li><strong>Segmentación semántica:</strong> Clasificar cada píxel de la imagen (cielo, carretera, persona).</li>
+          <li><strong>Segmentación de instancias:</strong> Identificar cada objeto individual y su contorno.</li>
+          <li><strong>Estimación de pose:</strong> Detectar la posición de articulaciones humanas en 2D/3D.</li>
+          <li><strong>Reconocimiento facial:</strong> Identificar o verificar personas por su rostro.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>👁️ Modelos clave</h3>
+        <ul>
+          <li><strong>YOLO (You Only Look Once):</strong> Detección en tiempo real. Una sola pasada por la red.</li>
+          <li><strong>ResNet:</strong> Red residual que permitió entrenar redes muy profundas.</li>
+          <li><strong>U-Net:</strong> Segmentación de imágenes médicas.</li>
+          <li><strong>Vision Transformer (ViT):</strong> Aplica transformers a imágenes dividiéndolas en parches.</li>
+          <li><strong>CLIP:</strong> OpenAI — entiende imágenes y texto juntos (búsqueda multimodal).</li>
+          <li><strong>Stable Diffusion:</strong> Genera imágenes a partir de texto (text-to-image).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>👁️ ¿Cómo "ve" una CNN?</h3>
+        <p>Una Red Convolucional procesa la imagen en etapas:</p>
+        <ol>
+          <li><strong>Capas convolucionales:</strong> Aplican filtros que detectan bordes, texturas, colores.</li>
+          <li><strong>Pooling:</strong> Reducen la resolución manteniendo la información importante.</li>
+          <li><strong>Capas profundas:</strong> Detectan formas complejas (ojos, ruedas, ventanas).</li>
+          <li><strong>Capas densas (FC):</strong> Clasifican basándose en lo detectado.</li>
+        </ol>
+        <div class="info-box">
+          <p>📸 Las primeras capas detectan bordes simples. Las capas medias detectan formas (círculos, rectángulos). Las capas finales detectan objetos completos (un rostro, un auto).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GENERATIVA ===== -->
+    <section class="tab-panel" id="panel-gen">
+      <div class="card">
+        <h2>IA Generativa</h2>
+        <p>
+          La <strong>IA Generativa</strong> crea contenido nuevo: texto, imágenes, música, video, código. A diferencia de modelos discriminativos (que clasifican), los modelos generativos producen datos originales.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🎨 Por tipo de contenido</h3>
+        <ul>
+          <li><strong>Texto:</strong> GPT-4, Claude, Gemini — escriben artículos, código, poesía, guiones.</li>
+          <li><strong>Imágenes:</strong> DALL·E 3, Midjourney, Stable Diffusion — crean arte, diseños, fotos realistas.</li>
+          <li><strong>Video:</strong> Sora (OpenAI), Runway Gen-3, Pika — videos a partir de descripciones.</li>
+          <li><strong>Música:</strong> Suno, Udio — generan canciones con letra y melodía.</li>
+          <li><strong>Audio/Voz:</strong> ElevenLabs, Bark — clonan voces, leen textos con emoción.</li>
+          <li><strong>Código:</strong> GitHub Copilot, Cursor, Codex — escriben y depuran código.</li>
+          <li><strong>3D:</strong> MeshGPT, Point-E — modelos tridimensionales desde texto.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🎨 Cómo funcionan los generadores de imágenes</h3>
+        <ul>
+          <li><strong>Diffusion Models:</strong> El modelo aprende a revertir el proceso de añadir ruido a una imagen. Parte de ruido puro y lo va "limpiando" siguiendo un prompt.</li>
+          <li><strong>Latent Diffusion:</strong> Stable Diffusion opera en un espacio latente comprimido (más rápido, menos memoria).</li>
+          <li><strong>Prompts:</strong> La descripción textual se codifica (con CLIP) y guía el proceso de denoising.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🎨 Aplicaciones prácticas</h3>
+        <ul>
+          <li>📝 <strong>Marketing:</strong> Redacción de anuncios, descripciones, email campaigns.</li>
+          <li>🎨 <strong>Diseño:</strong> Logos, ilustraciones, mockups de productos.</li>
+          <li>💻 <strong>Programación:</strong> Generar y depurar código, tests automáticos.</li>
+          <li>📚 <strong>Educación:</strong> Explicaciones personalizadas, resúmenes, ejercicios.</li>
+          <li>🎬 <strong>Entretenimiento:</strong> Guiones, storyboards, efectos visuales.</li>
+          <li>🏥 <strong>Medicina:</strong> Generación de informes, análisis de imágenes médicas.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== ÉTICA ===== -->
+    <section class="tab-panel" id="panel-ethics">
+      <div class="card">
+        <h2>Ética y Futuro de la IA</h2>
+        <p>
+          La IA no es solo tecnología — es una de las fuerzas más transformadoras de nuestra era. Conlleva riesgos, responsabilidades y preguntas profundas sobre el futuro.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>⚠️ Riesgos actuales</h3>
+        <ul>
+          <li><strong>Sesgo (Bias):</strong> Los modelos aprenden prejuicios de los datos. Ej: sistemas de contratación que discriminan por género.</li>
+          <li><strong>Alucinaciones:</strong> Los LLMs inventan información con total confianza. Peligroso en contextos médicos/legales.</li>
+          <li><strong>Deepfakes:</strong> Videos y audios falsos hiperrealistas que pueden desinformar.</li>
+          <li><strong>Privacidad:</strong> Los modelos pueden memorizar datos sensibles de su entrenamiento.</li>
+          <li><strong>Desplazamiento laboral:</strong> Automatización de trabajos cognitivos y creativos.</li>
+          <li><strong>Caja negra:</strong> Muchos modelos son imposibles de explicar (problema de "interpretabilidad").</li>
+          <li><strong>Uso malicioso:</strong> Phishing con IA, malware autónomo, armas autónomas.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🛡️ Principios de IA Responsable</h3>
+        <ul>
+          <li><strong>Transparencia:</strong> Los usuarios deben saber cuando interactúan con IA.</li>
+          <li><strong>Equidad:</strong> Los sistemas deben ser justos y no discriminar.</li>
+          <li><strong>Responsabilidad:</strong> Alguien debe rendir cuentas por lo que hace la IA.</li>
+          <li><strong>Privacidad:</strong> Los datos deben protegerse y usarse éticamente.</li>
+          <li><strong>Seguridad:</strong> Los sistemas deben ser robustos frente a ataques.</li>
+          <li><strong>Control Humano:</strong> Decisiones críticas deben tener supervisión humana.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🔮 ¿Qué sigue?</h3>
+        <ul>
+          <li><strong>Agentes autónomos:</strong> IAs que ejecutan tareas complejas de principio a fin.</li>
+          <li><strong>IA multimodal:</strong> Modelos que integran texto, imagen, audio y video nativamente.</li>
+          <li><strong>Razonamiento mejorado:</strong> Modelos que "piensan" antes de responder (chain-of-thought).</li>
+          <li><strong>IA en el borde (Edge AI):</strong> Modelos corriendo en celulares y dispositivos IoT.</li>
+          <li><strong>Regulación:</strong> Leyes como el AI Act europeo que definen reglas claras.</li>
+          <li><strong>AGI:</strong> El debate sobre si llegaremos a una inteligencia general artificial y cuándo.</li>
+        </ul>
+        <div class="info-box">
+          <p>🔮 <strong>Para reflexionar:</strong> La IA no reemplazará a los humanos. Los humanos que usen IA reemplazarán a los que no.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RECURSOS ===== -->
+    <section class="tab-panel" id="panel-recursos">
+      <div class="card">
+        <h2>📚 Recursos para aprender IA</h2>
+        <p>Todo lo que necesitas para profundizar, desde gratuito hasta avanzado.</p>
+      </div>
+
+      <div class="card">
+        <h3>🎓 Cursos gratuitos</h3>
+        <ul>
+          <li><strong>Machine Learning Specialization</strong> — Andrew Ng (Coursera / DeepLearning.AI)</li>
+          <li><strong>CS231n: CNNs for Visual Recognition</strong> — Stanford (YouTube)</li>
+          <li><strong>CS224n: NLP with Deep Learning</strong> — Stanford (YouTube)</li>
+          <li><strong>Fast.ai</strong> — Curso práctico de deep learning "de abajo arriba"</li>
+          <li><strong>Hugging Face Course</strong> — NLP con transformers, gratis y práctico</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📖 Libros esenciales</h3>
+        <ul>
+          <li><strong>"Deep Learning"</strong> — Goodfellow, Bengio, Courville (el "libro de los padres del DL")</li>
+          <li><strong>"Hands-On Machine Learning"</strong> — Géron (práctico, con Scikit-Learn y TF)</li>
+          <li><strong>"The Elements of Statistical Learning"</strong> — Hastie, Tibshirani, Friedman</li>
+          <li><strong>"Speech and Language Processing"</strong> — Jurafsky & Martin (NLP bible)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Herramientas</h3>
+        <ul>
+          <li><strong>Python</strong> — El lenguaje estándar de IA</li>
+          <li><strong>Jupyter Notebook / VS Code</strong> — Entornos de desarrollo</li>
+          <li><strong>Google Colab</strong> — Notebooks gratis con GPU</li>
+          <li><strong>Hugging Face</strong> — Hub de modelos, datasets y spaces</li>
+          <li><strong>Kaggle</strong> — Datasets, competencias, kernels gratuitos</li>
+          <li><strong>Ollama</strong> — Corre modelos open-source localmente</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📡 Para estar al día</h3>
+        <ul>
+          <li><strong>r/MachineLearning</strong> (Reddit) — Comunidad de investigación</li>
+          <li><strong>The Batch</strong> (DeepLearning.AI) — Newsletter semanal</li>
+          <li><strong>MLOps.community</strong> — Producción y operaciones</li>
+          <li><strong>Papers With Code</strong> — Últimos papers + código + benchmarks</li>
+          <li><strong>ArXiv Sanity Lite</strong> — Papers de IA curados</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>Blog Inteligencia Artificial — Creado con ❤️</p>
+  </footer>
+
+  <script>
+    // ---- Tabs ----
+    const tabs = document.querySelectorAll('.nav-tab');
+    const panels = {};
+
+    tabs.forEach(tab => {
+      const id = tab.dataset.tab;
+      panels[id] = document.getElementById('panel-' + id);
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        Object.values(panels).forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        panels[id].classList.add('active');
+      });
+    });
+
+    // ---- Accordion ----
+    document.querySelectorAll('.accordion-header').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.accordion-item');
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
