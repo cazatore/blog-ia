@@ -236,6 +236,7 @@
     <button class="nav-tab" data-tab="ethics">⚖️ Ética</button>
     <button class="nav-tab" data-tab="recursos">📚 Recursos</button>
     <button class="nav-tab" data-tab="google">🔗 Google</button>
+    <button class="nav-tab" data-tab="skills">🧩 OpenClaw Skills</button>
   </nav>
 
   <!-- CONTENT -->
@@ -888,6 +889,306 @@
   <footer>
     <p>Blog Inteligencia Artificial — Creado con ❤️</p>
   </footer>
+
+    <!-- ===== OPENCLAW SKILLS ===== -->
+    <section class="tab-panel" id="panel-skills">
+      <div class="card">
+        <h2>🧩 OpenClaw Skills: Guía Completa</h2>
+        <p>
+          Las <strong>Skills</strong> (habilidades) son paquetes modulares que le enseñan a tu agente OpenClaw
+          <strong>qué hacer y cómo hacerlo</strong>. Son archivos <code>SKILL.md</code> con instrucciones
+          especializadas que el agente lee para saber cuándo ofrecerte una funcionalidad y cómo ejecutarla.
+        </p>
+        <p>
+          Piensa en ellas como "manuales de onboarding" para el agente: cuando enfrenta una tarea, revisa
+          las skills disponibles y activa la que mejor se ajusta. Esto lo convierte de un asistente genérico
+          en uno <strong>especializado</strong> para tu flujo de trabajo.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>📁 Anatomía de una Skill</h3>
+        <p>Toda skill vive en una carpeta dentro de <code>skills/</code> y tiene esta estructura:</p>
+        <pre><code>skills/
+  nombre-de-la-skill/
+    SKILL.md          # Archivo obligatorio
+    scripts/          # (opcional) Scripts reutilizables
+    references/       # (opcional) Documentación de referencia
+    assets/           # (opcional) Plantillas, imágenes, etc.</code></pre>
+
+        <p>El archivo <code>SKILL.md</code> contiene:</p>
+        <ul>
+          <li><strong>Frontmatter YAML</strong> — Metadatos: <code>name</code> (identificador único) y <code>description</code> (qué hace y cuándo usarla).</li>
+          <li><strong>Cuerpo en Markdown</strong> — Instrucciones detalladas para el agente.</li>
+        </ul>
+
+        <p><strong>Ejemplo mínimo:</strong></p>
+        <pre><code>---
+name: saludo-formal
+description: Genera saludos formales en español para diferentes momentos del día. Úsala cuando el usuario pida un saludo formal o de cortesía.
+---
+
+# Saludo Formal
+
+Cuando el usuario pida un saludo formal, responde con el saludo apropiado según la hora del día:
+
+- Antes de las 12:00 → "Buenos días, ¿en qué puedo servirle?"
+- Entre 12:00 y 18:00 → "Buenas tardes, ¿en qué puedo ayudarle?"
+- Después de las 18:00 → "Buenas noches, ¿en qué puedo asistirle?"
+
+Mantén un tono profesional y cordial en todo momento.</code></pre>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Paso a Paso: Crear tu Primera Skill</h3>
+        <p>Sigue estos pasos para crear una skill desde cero:</p>
+
+        <h4>Paso 1: Crear la carpeta</h4>
+        <p>Las skills se guardan en el <strong>workspace</strong> de tu agente. Crea una carpeta con el nombre de tu skill (en minúsculas, con guiones):</p>
+        <pre><code>mkdir -p ~/.openclaw/workspace/skills/hello-world</code></pre>
+
+        <h4>Paso 2: Escribir SKILL.md</h4>
+        <p>Dentro de esa carpeta, crea el archivo <code>SKILL.md</code>:</p>
+        <pre><code>---
+name: hello-world
+description: Una skill simple que saluda al usuario con un mensaje personalizado.
+---
+
+# Hello World
+
+Cuando el usuario pida un saludo o bienvenida, responde con:
+"¡Hola! Bienvenido a OpenClaw. Esta es mi primera skill funcionando 🎉"</code></pre>
+
+        <h4>Paso 3: Cargar la skill</h4>
+        <p>El agente necesita refrescar su lista de skills. Puedes hacerlo de dos formas:</p>
+        <pre><code># Opción A: Iniciar una nueva sesión
+/new
+
+# Opción B: Reiniciar el gateway
+openclaw gateway restart</code></pre>
+
+        <h4>Paso 4: Verificar que se cargó</h4>
+        <pre><code>openclaw skills list</code></pre>
+
+        <h4>Paso 5: Probarla</h4>
+        <p>Envía un mensaje que active la skill o pruébala directamente:</p>
+        <pre><code>openclaw agent --message "dame un saludo"</code></pre>
+        <p>O simplemente chatea con el agente: "Hola" → debería responder con tu saludo personalizado.</p>
+      </div>
+
+      <div class="card">
+        <h3>🚀 Skills Avanzadas con Recursos</h3>
+        <p>Las skills pueden incluir scripts, documentación y plantillas para tareas más complejas.</p>
+
+        <h4>Ejemplo con script Python</h4>
+        <p>Estructura:</p>
+        <pre><code>skills/pdf-rotator/
+  SKILL.md
+  scripts/
+    rotate_pdf.py</code></pre>
+
+        <p><strong>scripts/rotate_pdf.py</strong>:</p>
+        <pre><code>#!/usr/bin/env python3
+import sys, PyPDF2
+
+input_pdf = sys.argv[1]
+output_pdf = sys.argv[2]
+rotation = int(sys.argv[3])  # 90, 180, 270
+
+reader = PyPDF2.PdfReader(input_pdf)
+writer = PyPDF2.PdfWriter()
+
+for page in reader.pages:
+    page.rotate(rotation)
+    writer.add_page(page)
+
+with open(output_pdf, "wb") as f:
+    writer.write(f)
+
+print(f"PDF rotado {rotation}° → {output_pdf}")</code></pre>
+
+        <p><strong>SKILL.md</strong>:</p>
+        <pre><code>---
+name: pdf-rotator
+description: Rota páginas de archivos PDF usando PyPDF2. Úsala cuando el usuario necesite rotar un PDF.
+---
+
+# PDF Rotator
+
+Usa el script <code>{baseDir}/scripts/rotate_pdf.py</code> para rotar PDFs:
+
+```bash
+python3 {baseDir}/scripts/rotate_pdf.py input.pdf output.pdf 90
+```
+
+El script acepta rotaciones de 90, 180 o 270 grados.</code></pre>
+
+        <p><strong>💡 Nota:</strong> <code>{baseDir}</code> es una variable que OpenClaw reemplaza automáticamente con la ruta completa de la carpeta de la skill.</p>
+
+        <h4>Ejemplo con subcarpetas de agrupación</h4>
+        <p>Puedes agrupar skills relacionadas dentro de una subcarpeta:</p>
+        <pre><code>skills/mis-herramientas/pdf-rotator/SKILL.md
+skills/mis-herramientas/pdf-firmador/SKILL.md
+skills/mis-herramientas/pdf-compresor/SKILL.md</code></pre>
+        <p>OpenClaw soporta un nivel de agrupación. Las skills se siguen cargando correctamente.</p>
+      </div>
+
+      <div class="card">
+        <h3>📦 Empaquetar y Publicar en ClawHub</h3>
+        <p>Una vez que tu skill funciona, puedes <strong>empaquetarla</strong> para compartirla o publicarla en <a href="https://clawhub.ai" target="_blank">ClawHub</a>, el registro público de skills de OpenClaw.</p>
+
+        <h4>Empaquetar con el Skill Creator</h4>
+        <p>El SDK de OpenClaw incluye un script para empaquetar automáticamente:</p>
+        <pre><code># Navegar a la carpeta del skill-creator
+cd ~/.nvm/versions/node/v22.22.2/lib/node_modules/openclaw/skills/skill-creator
+
+# Empaquetar la skill
+python3 scripts/package_skill.py ~/.openclaw/workspace/skills/mi-skill
+
+# Opcional: especificar carpeta de salida
+python3 scripts/package_skill.py ~/.openclaw/workspace/skills/mi-skill ./dist</code></pre>
+        <p>Esto genera un archivo <code>.skill</code> (un zip con extensión .skill) listo para distribuir.</p>
+
+        <h4>Publicar en ClawHub</h4>
+        <p>Necesitas la CLI de ClawHub:</p>
+        <pre><code>npm i -g clawhub
+
+# Iniciar sesión
+clawhub login
+
+# Publicar la skill
+clawhub skill publish ./ruta/a/mi-skill --slug mi-skill --name "Mi Skill" --version 1.0.0 --tags latest</code></pre>
+
+        <p>También puedes sincronizar múltiples skills a la vez:</p>
+        <pre><code>clawhub sync --all</code></pre>
+
+        <p><strong>Requisitos para publicar:</strong> Necesitas una cuenta de GitHub con al menos 1 semana de antigüedad.</p>
+      </div>
+
+      <div class="card">
+        <h3>⬇️ Instalar Skills de Terceros</h3>
+        <p>Hay <strong>tres formas</strong> de instalar skills de terceros en OpenClaw:</p>
+
+        <h4>1. Desde ClawHub (la más recomendada)</h4>
+        <p>Busca e instala directamente desde el registro oficial:</p>
+        <pre><code># Buscar skills disponibles
+openclaw skills search "calendar"
+openclaw skills search "pdf"
+
+# Instalar una skill por su slug
+openclaw skills install &lt;skill-slug&gt;
+
+# Ejemplo:
+openclaw skills install calendar-helper</code></pre>
+        <p>La skill se instala en <code>&lt;workspace&gt;/skills/</code> y estará disponible en la <strong>próxima sesión</strong>.</p>
+
+        <h4>2. Desde archivo .skill</h4>
+        <p>Si alguien te comparte un archivo <code>.skill</code>:</p>
+        <pre><code># Descomprimir en la carpeta de skills de tu workspace
+unzip skill-descargada.skill -d ~/.openclaw/workspace/skills/
+
+# O simplemente extraer y mover la carpeta
+unzip skill-descargada.skill -d /tmp/
+mv /tmp/skill-descargada ~/.openclaw/workspace/skills/</code></pre>
+
+        <h4>3. Manual (clonar o copiar carpeta)</h4>
+        <p>Si la skill viene como carpeta de GitHub u otro repositorio:</p>
+        <pre><code># Clonar el repo
+cd /tmp
+git clone https://github.com/alguien/sus-skills
+
+# Copiar solo la skill que te interesa
+cp -r /tmp/sus-skills/nombre-skill ~/.openclaw/workspace/skills/</code></pre>
+
+        <p><strong>⚠️ Seguridad:</strong> Trata las skills de terceros como código no confiable. Revísalas antes de activarlas.</p>
+      </div>
+
+      <div class="card">
+        <h3>⚙️ Configuración Avanzada: Allowlists y Gating</h3>
+        <p>Puedes controlar <strong>qué skills ve cada agente</strong> mediante listas de permitidos (allowlists) en tu archivo <code>openclaw.json</code>:</p>
+
+        <pre><code>{
+  "agents": {
+    "defaults": {
+      "skills": ["github", "weather"]
+    },
+    "list": [
+      { "id": "writer", "skills": ["github", "weather"] },
+      { "id": "docs", "skills": ["docs-search"] },
+      { "id": "locked-down", "skills": [] }
+    ]
+  }
+}</code></pre>
+
+        <ul>
+          <li>Si omites <code>agents.defaults.skills</code> → todas las skills están disponibles.</li>
+          <li>Si omites <code>agents.list[].skills</code> → hereda de <code>defaults</code>.</li>
+          <li>Si pones <code>skills: []</code> → el agente no tiene skills.</li>
+          <li>Una lista no vacía es la <strong>lista final</strong> — no se fusiona con defaults.</li>
+        </ul>
+
+        <h4>Gating por dependencias</h4>
+        <p>Puedes hacer que una skill solo se cargue si se cumplen ciertas condiciones, usando el campo <code>metadata.openclaw</code>:</p>
+        <pre><code>---
+name: image-lab
+description: Genera y edita imágenes con un workflow basado en API.
+metadata:
+  {
+    "openclaw":
+      {
+        "requires": { "bins": ["uv"], "env": ["GEMINI_API_KEY"], "config": ["browser.enabled"] },
+        "primaryEnv": "GEMINI_API_KEY",
+        "os": ["linux"],
+      },
+  }
+---</code></pre>
+
+        <p>Campos disponibles en <code>metadata.openclaw</code>:</p>
+        <ul>
+          <li><code>requires.bins</code> — Binarios requeridos en el PATH.</li>
+          <li><code>requires.env</code> — Variables de entorno requeridas.</li>
+          <li><code>requires.config</code> — Claves de configuración que deben ser verdaderas.</li>
+          <li><code>os</code> — Sistemas operativos donde aplica (<code>linux</code>, <code>darwin</code>, <code>win32</code>).</li>
+          <li><code>primaryEnv</code> — Variable de entorno principal (para inyectar via <code>skills.entries</code>).</li>
+          <li><code>always</code> — Si es <code>true</code>, ignora el resto de gates.</li>
+        </ul>
+
+        <p>También puedes deshabilitar skills desde la configuración:</p>
+        <pre><code>{
+  "skills": {
+    "entries": {
+      "image-lab": { "enabled": true, "env": { "GEMINI_API_KEY": "tu-key-aqui" } },
+      "sag": { "enabled": false }
+    }
+  }
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h3>🧠 Buenas Prácticas</h3>
+        <ul>
+          <li><strong>Sé conciso</strong> — La skill comparte el contexto con todo lo demás. Solo agrega información que el agente no conozca.</li>
+          <li><strong>Usa nombres en hyphen-case</strong> — Todo en minúsculas, separado por guiones: <code>mi-skill-util</code>.</li>
+          <li><strong>description es clave</strong> — Es lo único que el agente lee para decidir si activa la skill. Sé claro y específico.</li>
+          <li><strong>Separar contenido grande</strong> — Si la skill es muy larga (&gt;500 líneas), mueve detalles a <code>references/</code>.</li>
+          <li><strong>Usa progressive disclosure</strong> — Pon lo esencial en SKILL.md y los detalles en archivos de referencia que se cargan solo si hacen falta.</li>
+          <li><strong>Seguridad primero</strong> — Si tu skill usa <code>exec</code>, asegúrate de que no permita inyección de comandos.</li>
+          <li><strong>Prueba localmente</strong> — Usa <code>openclaw agent --message "..."</code> antes de compartir.</li>
+          <li><strong>Reinicia sesión</strong> — Los cambios en skills requieren una nueva sesión (<code>/new</code> o reinicio del gateway).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📚 Más Información</h3>
+        <ul>
+          <li><strong><a href="https://clawhub.ai" target="_blank">ClawHub</a></strong> — Registro público de skills y plugins.</li>
+          <li><strong>Documentación oficial:</strong> <code>~/.openclaw/docs/tools/skills.md</code></li>
+          <li><strong>Skill Creator:</strong> <code>~/.openclaw/skills/skill-creator/SKILL.md</code></li>
+          <li><strong>Slash commands:</strong> <code>/skills</code> para listar skills activas en la sesión.</li>
+          <li><strong>Skills de ejemplo:</strong> Explora <code>~/.openclaw/workspace/skills/</code> para ver skills instaladas.</li>
+        </ul>
+      </div>
+    </section>
 
   <script>
     // ---- Tabs ----
