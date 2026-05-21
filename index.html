@@ -208,6 +208,29 @@
       font-size: 0.85rem;
       border-top: 1px solid var(--border);
     }
+    .visitor-counter {
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+    }
+    #visit-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent2);
+      background: var(--surface2);
+      padding: 0.15rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      min-width: 2.2rem;
+      text-align: center;
+    }
+    .visitor-label {
+      color: var(--text2);
+    }
 
     /* ---- RESPONSIVE ---- */
     @media (max-width: 640px) {
@@ -888,6 +911,10 @@
 
   <footer>
     <p>Blog Inteligencia Artificial — Creado con ❤️</p>
+    <div class="visitor-counter">
+      <span id="visit-count">0</span>
+      <span class="visitor-label">visitas</span>
+    </div>
   </footer>
 
     <!-- ===== OPENCLAW SKILLS ===== -->
@@ -1213,6 +1240,21 @@ metadata:
         item.classList.toggle('open');
       });
     });
+
+    // ---- Visitor Counter (free API) ----
+    (function() {
+      const key = 'cazatore_blog_ia';
+      const api = 'https://api.countapi.xyz';
+      const el = document.getElementById('visit-count');
+      
+      fetch(api + '/hit/' + key + '/' + key)
+        .then(r => r.json())
+        .then(data => { if (el) el.textContent = data.value.toLocaleString(); })
+        .catch(() => {
+          // Fallback: mostrar un badge genérico
+          if (el) el.textContent = '✦';
+        });
+    })();
   </script>
 
 </body>
