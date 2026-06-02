@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inteligencia Artificial — De Cero a Experto</title>
+  <title>Inteligencia Artificial y Arquitectura de Software</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -244,8 +244,8 @@
 
   <!-- HERO -->
   <header class="hero">
-    <h1>🤖 Inteligencia Artificial</h1>
-    <p>De los fundamentos a la vanguardia. Un recorrido completo por el mundo de la IA, explicado en claro.</p>
+    <h1>🤖 IA + 🏗️ Arquitectura</h1>
+    <p>De los fundamentos a la vanguardia. Dos cursos completos: Inteligencia Artificial y Arquitectura de Software. Todo explicado en claro.</p>
   </header>
 
   <!-- TABS -->
@@ -260,6 +260,7 @@
     <button class="nav-tab" data-tab="recursos">📚 Recursos</button>
     <button class="nav-tab" data-tab="google">🔗 Google</button>
     <button class="nav-tab" data-tab="skills">🧩 OpenClaw Skills</button>
+    <button class="nav-tab" data-tab="arquitectura">🏗️ Arquitectura</button>
   </nav>
 
   <!-- CONTENT -->
@@ -1214,6 +1215,323 @@ metadata:
           <li><strong>Slash commands:</strong> <code>/skills</code> para listar skills activas en la sesión.</li>
           <li><strong>Skills de ejemplo:</strong> Explora <code>~/.openclaw/workspace/skills/</code> para ver skills instaladas.</li>
         </ul>
+      </div>
+    </section>
+
+<!-- ===== ARQUITECTURA DE SOFTWARE ===== -->
+    <section class="tab-panel" id="panel-arquitectura">
+      <div class="card">
+        <h2>🏗️ Arquitectura de Software — De 0 a Ingeniero</h2>
+        <p>
+          Un recorrido completo desde los fundamentos hasta el nivel de arquitecto/ingeniero de software, cubriendo principios, patrones, diseño de sistemas, DDD, sistemas distribuidos, infraestructura y liderazgo técnico.
+        </p>
+        <div class="info-box">
+          <p>🎯 <strong>Objetivo:</strong> Al finalizar este curso entenderás cómo diseñar sistemas completos, tomar decisiones arquitectónicas informadas y comunicar tus diseños a equipos técnicos y stakeholders.</p>
+        </div>
+      </div>
+
+      <!-- MÓDULO 1 -->
+      <div class="card">
+        <h3>📘 Módulo 1 — Fundamentos de Arquitectura</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">¿Qué es la Arquitectura de Software? <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>La arquitectura de software es la <strong>estructura fundamental</strong> de un sistema: sus componentes, sus relaciones entre sí y con el entorno, y los principios que guían su diseño y evolución.</p>
+              <p>No es solo el diagrama inicial. Es la <strong>columna vertebral</strong> del sistema. Incluye decisiones difíciles de cambiar una vez implementadas.</p>
+              <ul>
+                <li><strong>Estructura:</strong> ¿Qué partes tiene el sistema y cómo se conectan?</li>
+                <li><strong>Comportamiento:</strong> ¿Cómo interactúan los componentes?</li>
+                <li><strong>Atributos de calidad:</strong> Rendimiento, escalabilidad, seguridad, mantenibilidad.</li>
+                <li><strong>Decisiones:</strong> Framework, base de datos, protocolos, patrones.</li>
+              </ul>
+              <div class="info-box">
+                <p>💡 <strong>Cita clave:</strong> "La arquitectura no es el modelo del sistema, sino las decisiones que son difíciles de cambiar" — Martin Fowler</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Principios SOLID <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>SOLID</strong> son 5 principios de diseño orientado a objetos que producen código mantenible y escalable. Son la base de cualquier diseño de calidad.</p>
+              <ul>
+                <li><strong>S</strong> — Single Responsibility: Una clase debe tener una sola razón para cambiar.</li>
+                <li><strong>O</strong> — Open/Closed: Abierto para extensión, cerrado para modificación.</li>
+                <li><strong>L</strong> — Liskov Substitution: Subtipos deben poder reemplazar a sus tipos base.</li>
+                <li><strong>I</strong> — Interface Segregation: Interfaces específicas son mejores que una general.</li>
+                <li><strong>D</strong> — Dependency Inversion: Depende de abstracciones, no de implementaciones.</li>
+              </ul>
+              <p><strong>Ejemplo práctico (DIP):</strong></p>
+              <pre><code>// ❌ MAL: depende de implementación concreta
+class ReportService {
+  constructor() { this.db = new MySQLDatabase(); }
+}
+
+// ✅ BIEN: depende de abstracción
+class ReportService {
+  constructor(db) { this.db = db; } // db implementa IDatabase
+}</code></pre>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Patrones de Diseño (GoF) <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Los patrones GoF (Gang of Four, 1994) son soluciones reutilizables para problemas comunes en diseño de software.</p>
+              <p><strong>Creacionales:</strong> Singleton, Factory Method, Abstract Factory, Builder, Prototype.</p>
+              <p><strong>Estructurales:</strong> Adapter, Decorator, Facade, Proxy, Composite.</p>
+              <p><strong>De Comportamiento:</strong> Observer, Strategy, Command, Template Method, State.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Principios GRASP <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>GRASP (General Responsibility Assignment Software Patterns) son 9 patrones para asignar responsabilidades: Information Expert, Creator, Controller, Low Coupling, High Cohesion, Polymorphism, Pure Fabrication, Indirection, Protected Variations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 2 -->
+      <div class="card">
+        <h3>📘 Módulo 2 — Estilos Arquitectónicos</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Monolítico <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Simple de desarrollar y desplegar. Ideal para proyectos pequeños, MVPs, equipos chicos. Desventajas: escalabilidad limitada, acoplamiento crece con el tiempo.</p>
+              <p><strong>No es malo</strong> — es la opción correcta para muchos casos.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Microservicios <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Servicios pequeños e independientes, cada uno con su dominio y DB. Ventajas: escalabilidad independiente, despliegues autónomos, aislamiento de fallos. Desventajas: complejidad distribuida, DevOps maduro, observabilidad obligatoria.</p>
+              <p><strong>🔑 Regla de oro:</strong> No empieces con microservicios. Empieza monolítico bien modularizado.</p>
+              <p><strong>Patrones:</strong> API Gateway, Service Discovery, Circuit Breaker, Saga, Strangler Fig.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Hexagonal, Clean Architecture, CQRS <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Hexagonal (Ports & Adapters):</strong> El dominio está aislado de los detalles externos. Puertos (interfaces) y adaptadores (implementaciones).</p>
+              <p><strong>Clean Architecture:</strong> Capas concéntricas donde la dependencia siempre apunta hacia adentro. Entidades → Casos de Uso → Adaptadores → Frameworks.</p>
+              <p><strong>CQRS & Event Sourcing:</strong> Separar lecturas de escrituras. Guardar eventos en lugar de estado. Útil en fintech, auditoría.</p>
+              <p><strong>⚠️</strong> No uses CQRS/ES a menos que realmente los necesites.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Event-Driven Architecture <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Comunicación asíncrona mediante eventos. Componentes: Producer, Broker (Kafka, RabbitMQ, SQS), Consumer.</p>
+              <p><strong>Patrones:</strong> Pub/Sub, Event Notification, Saga Coreografiada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 3 -->
+      <div class="card">
+        <h3>📘 Módulo 3 — Diseño y Documentación</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Modelo C4 <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>4 niveles de zoom: Contexto → Contenedores → Componentes → Código. Creado por Simon Brown. Herramientas: Structurizr, PlantUML, Mermaid.js.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">ADRs (Architecture Decision Records) <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Documento corto que captura una decisión arquitectónica importante. Formato: Title, Status, Context, Decision, Consequences. Es la memoria técnica del proyecto.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Atributos de Calidad <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Propiedades no funcionales críticas: Rendimiento, Escalabilidad, Disponibilidad, Seguridad, Mantenibilidad, Observabilidad.</p>
+              <p><strong>Trade-offs:</strong> Seguridad vs Rendimiento, Consistencia vs Disponibilidad (CAP), Mantenibilidad vs Rendimiento.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">UML Esencial <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Diagramas esenciales: Clases, Secuencia, Componentes, Paquetes, Estados. Herramientas modernas: Mermaid.js, PlantUML, Diagrams.net.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 4 -->
+      <div class="card">
+        <h3>📘 Módulo 4 — Domain-Driven Design (DDD)</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Conceptos Base <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>DDD (Eric Evans) alinea el código con la lógica de negocio. Conceptos: Lenguaje Ubicuo, Modelo de Dominio, Bounded Context.</p>
+              <p><strong>Bounded Context:</strong> Límite explícito donde un modelo es consistente. Relaciones: Partnership, Shared Kernel, Anticorruption Layer, Open Host Service.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Entity, Value Object, Aggregate <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Entity:</strong> Objeto con identidad única. <strong>Value Object:</strong> Inmutable, definido por sus atributos. <strong>Aggregate:</strong> Cluster tratado como unidad con una raíz (Aggregate Root). <strong>Domain Event:</strong> Algo que pasó en el dominio.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Tácticas: Repository, Service, Factory <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Repository:</strong> Abstracción de persistencia. <strong>Domain Service:</strong> Operación sin estado con lógica de negocio pura. <strong>Factory:</strong> Creación de objetos complejos. <strong>Application Service:</strong> Orquesta casos de uso.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 5 -->
+      <div class="card">
+        <h3>📘 Módulo 5 — Comunicación e Integración</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">REST <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Recursos por URL, métodos HTTP estándar, stateless. Niveles de Richardson. Buenas prácticas: versionado, paginación, errores descriptivos, códigos HTTP correctos.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">GraphQL <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Cliente controla la respuesta, tipado fuerte, un solo endpoint. Ideal para clientes diversos y dashboards. Desventajas: caching complejo, N+1 problem.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">gRPC <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>RPC de alto rendimiento con HTTP/2 y Protocol Buffers. Streaming bidireccional. Ideal para microservicios con alta performance.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Message Brokers <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Kafka:</strong> Streaming, alto throughput, persistente. <strong>RabbitMQ:</strong> Colas tradicionales, fácil. <strong>SQS/SNS:</strong> AWS, serverless, mínimo mantenimiento.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 6 -->
+      <div class="card">
+        <h3>📘 Módulo 6 — Infraestructura y Cloud</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Docker y Contenedores <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Imágenes multi-stage, capas optimizadas, no ejecutar como root. Docker Compose para orquestación local.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Kubernetes <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Estándar de orquestación. Pod, Deployment, Service, Ingress, ConfigMap, Helm. ⚠️ No lo necesitas si tienes 1-2 servicios.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">CI/CD <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Build → Test → Stage → Acceptance → Production. Herramientas: GitHub Actions, GitLab CI, Jenkins, ArgoCD. Patrones: GitOps, Trunk-based, Feature Flags.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Patrones Cloud <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Deployment:</strong> Rolling Update, Blue/Green, Canary. <strong>Cloud:</strong> Strangler Fig, BFF, Saga, Circuit Breaker, Bulkhead, Throttling.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 7 -->
+      <div class="card">
+        <h3>📘 Módulo 7 — Sistemas Distribuidos</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Teorema CAP <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Consistency, Availability, Partition Tolerance. Siempre eliges P, y decides entre CP (PostgreSQL) o AP (DynamoDB, Cassandra).</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Consistencia y Saga <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Modelos: Linearizability → Secuencial → Causal → Eventual. Transacciones distribuidas: 2PC (lento, bloqueante) vs Saga (coreografiada u orquestada).</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Escalabilidad <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Vertical:</strong> Más poder en misma máquina. <strong>Horizontal:</strong> Más máquinas. Estrategias: Sharding, Replicación, Caching, Load Balancing, Auto-scaling, Async Processing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 8 -->
+      <div class="card">
+        <h3>📘 Módulo 8 — Seguridad, Observabilidad y Testing</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Auth: JWT, OAuth, RBAC <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Autenticación:</strong> JWT, OAuth 2.0, OpenID Connect, Session-based, API Keys. <strong>Autorización:</strong> RBAC (roles) vs ABAC (atributos).</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Observabilidad <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>3 pilares: Logging estructurado (JSON + Correlation ID), Métricas (Prometheus + Grafana, RED/USE Method), Tracing distribuido (Jaeger, OpenTelemetry).</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Testing y Seguridad <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Pirámide:</strong> Unit (70%) → Integration (20%) → E2E (10%). Estrategias modernas: Contract Testing, Chaos Engineering. <strong>OWASP Top 10:</strong> Broken Access Control, Injection, Cryptographic Failures, SSRF.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 9 -->
+      <div class="card">
+        <h3>📘 Módulo 9 — Carrera y Liderazgo</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">Roadmap: Junior → Senior → Staff <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p><strong>Junior:</strong> Código limpio, SOLID, Git. <strong>Mid:</strong> Diseño de módulos, patrones, DB, CI/CD. <strong>Senior:</strong> Arquitectura de sistemas, DDD, mentoring. <strong>Staff/Principal:</strong> Visión técnica multi-equipo, influencia sin autoridad.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Decisiones Técnicas <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Marco: Define el problema → Restricciones → Opciones → Trade-offs → ADR → Revisión → Implementa y monitorea. No existe la mejor arquitectura, existe la que se adapta a tu contexto.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Deuda Técnica y Comunicación <span class="icon">▼</span></button>
+            <div class="accordion-body">
+              <p>Gestiona la deuda: ~20% del sprint a pagarla, Boy Scout Rule. Comunica: analogías para no-técnicos, diagramas C4, ADRs, RFCs. Un arquitecto pasa ~50% del tiempo comunicando.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROYECTO FINAL -->
+      <div class="card">
+        <h3>🎯 Proyecto Final: Diseña un Sistema Completo</h3>
+        <p><strong>Escenario:</strong> E-commerce con 1M+ usuarios, pagos internacionales, inventario en tiempo real y recomendaciones.</p>
+        <p><strong>Entregables:</strong> C4 Nivel 1-2, estrategia de DBs, comunicación entre servicios, CI/CD, ADRs, observabilidad.</p>
+        <div class="info-box">
+          <p>📚 <strong>Libros:</strong> "Clean Architecture" (Martin), "Building Microservices" (Newman), "DDD" (Evans), "Designing Data-Intensive Applications" (Kleppmann), "Software Architecture: The Hard Parts" (Ford).</p>
+        </div>
       </div>
     </section>
 
